@@ -81,4 +81,32 @@ test('유천주역카드 상세페이지가 64괘 안내와 상담 링크를 제
   assert.match(detail, /https:\/\/litt\.ly\/auroranik/, '오로라닉 채널 링크가 필요합니다');
 });
 
+test('유천주역 64괘 프로젝트가 전용 상세페이지로 연결된다', () => {
+  assert.equal(existsSync('yucheon-64.html'), true, 'yucheon-64.html 상세페이지가 필요합니다');
+  const landing = readFileSync('index.html', 'utf8');
+  assert.match(landing, /href=["']yucheon-64\.html["']/, '유천주역 64괘에 상세페이지 링크가 필요합니다');
+});
+
+test('유천주역 64괘 상세페이지가 텀블벅 공식 이미지를 표시한다', () => {
+  const detail = readFileSync('yucheon-64.html', 'utf8');
+  const images = [
+    'assets/yucheon64-cover-01.png', 'assets/yucheon64-cover-02.png', 'assets/yucheon64-cover-03.png',
+    'assets/yucheon64-story-01.jpg', 'assets/yucheon64-story-02.png',
+    'assets/yucheon64-story-03.png', 'assets/yucheon64-story-04.jpg'
+  ];
+  for (const image of images) {
+    assert.match(detail, new RegExp(image.replaceAll('.', '\\.')), image + '가 상세페이지에 필요합니다');
+    assert.equal(existsSync(image), true, image + ' 파일이 필요합니다');
+  }
+});
+
+test('유천주역 64괘 상세페이지가 프로젝트 성과와 원문 링크를 제공한다', () => {
+  const detail = readFileSync('yucheon-64.html', 'utf8');
+  assert.match(detail, /857%/, '텀블벅 달성률이 필요합니다');
+  assert.match(detail, /4,288,000/, '텀블벅 모금액이 필요합니다');
+  assert.match(detail, /https:\/\/tumblbug\.com\/yupoin_iching/, '텀블벅 원문 링크가 필요합니다');
+  assert.match(detail, /https:\/\/open\.kakao\.com\/o\/slXbPiBi/, '카카오 상담 링크가 필요합니다');
+});
+
+
 
