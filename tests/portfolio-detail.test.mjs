@@ -55,3 +55,30 @@ test('구궁카드 상세페이지가 상담과 채널 링크를 제공한다', 
   assert.match(detail, /https:\/\/litt\.ly\/auroranik/, '오로라닉 채널 링크가 필요합니다');
 });
 
+test('유천주역가이드카드 프로젝트가 전용 상세페이지로 연결된다', () => {
+  assert.equal(existsSync('yucheon-iching.html'), true, 'yucheon-iching.html 상세페이지가 필요합니다');
+  const landing = readFileSync('index.html', 'utf8');
+  assert.match(landing, /href=["']yucheon-iching\.html["']/, '유천주역가이드카드에 상세페이지 링크가 필요합니다');
+});
+
+test('유천주역카드 상세페이지가 첨부 제품 이미지를 표시한다', () => {
+  const detail = readFileSync('yucheon-iching.html', 'utf8');
+  const images = [
+    'assets/yucheon-main-01.png', 'assets/yucheon-main-02.png', 'assets/yucheon-main-03.png',
+    'assets/yucheon-001.jpeg', 'assets/yucheon-002.jpeg', 'assets/yucheon-003.jpeg',
+    'assets/yucheon-64.png', 'assets/yucheon-card-detail.png', 'assets/yucheon-faq.png'
+  ];
+  for (const image of images) {
+    assert.match(detail, new RegExp(image.replaceAll('.', '\\.')), image + '가 상세페이지에 필요합니다');
+    assert.equal(existsSync(image), true, image + ' 파일이 필요합니다');
+  }
+});
+
+test('유천주역카드 상세페이지가 64괘 안내와 상담 링크를 제공한다', () => {
+  const detail = readFileSync('yucheon-iching.html', 'utf8');
+  assert.match(detail, /64괘/, '64괘 상품 설명이 필요합니다');
+  assert.match(detail, /https:\/\/open\.kakao\.com\/o\/slXbPiBi/, '카카오 상담 링크가 필요합니다');
+  assert.match(detail, /https:\/\/litt\.ly\/auroranik/, '오로라닉 채널 링크가 필요합니다');
+});
+
+
